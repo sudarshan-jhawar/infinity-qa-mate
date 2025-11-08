@@ -40,8 +40,14 @@ The system consists of the following components:
 ---
 
 ## Architecture Diagram
+<img width="748" height="499" alt="image" src="https://github.com/user-attachments/assets/1a661349-4407-4433-9463-29a643bf9f90" />
 
 ---
+
+## ER Diagram
+
+<img width="696" height="511" alt="image" src="https://github.com/user-attachments/assets/39df0ee2-b521-4616-a6f0-974a2522126f" />
+
 
 ## Key Features
 - **AI-driven defect analysis** for better prioritization.
