@@ -29,6 +29,13 @@ builder.Services.AddScoped<IDefectService, DefectService>();
 
 var app = builder.Build();
 
+// Ensure SQLite database and tables exist (creates schema if file is missing)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 // Enable Swagger UI at /swagger (default RoutePrefix)
 app.UseSwagger();
 app.UseSwaggerUI(c =>
