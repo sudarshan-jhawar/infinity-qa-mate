@@ -6,7 +6,7 @@ public class Defect
 {
     [Key]
     [Column("Defect_ID")]
-    public int DefectId { get; set; }
+    public string? DefectId { get; set; }
 
     [Required]
     [Column("Title")]
