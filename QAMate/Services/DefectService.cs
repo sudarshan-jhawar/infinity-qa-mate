@@ -27,10 +27,17 @@ namespace QAMate.Services
 
         public async Task<DefectDto> CreateAsync(DefectDto dto)
         {
+            var now = DateTime.UtcNow;
             var entity = new Defect
             {
-                Name = dto.Name,
-                Price = dto.Price
+                Title = dto.Title,
+                Description = dto.Description,
+                Status = dto.Status ?? "Open",
+                Severity = dto.Severity,
+                Priority = dto.Priority,
+                CreatedAt = now,
+                UpdatedAt = now,
+                LastModifiedAt = now
             };
             entity = await _repository.AddAsync(entity);
             return MapToDto(entity);
@@ -40,8 +47,13 @@ namespace QAMate.Services
         {
             var existing = await _repository.GetByIdAsync(id);
             if (existing == null) return false;
-            existing.Name = dto.Name;
-            existing.Price = dto.Price;
+            existing.Title = dto.Title ?? existing.Title;
+            existing.Description = dto.Description ?? existing.Description;
+            existing.Status = dto.Status ?? existing.Status;
+            existing.Severity = dto.Severity == 0 ? existing.Severity : dto.Severity;
+            existing.Priority = dto.Priority == 0 ? existing.Priority : dto.Priority;
+            existing.LastModifiedAt = DateTime.UtcNow;
+            existing.UpdatedAt = DateTime.UtcNow;
             return await _repository.UpdateAsync(existing);
         }
 
@@ -53,8 +65,14 @@ namespace QAMate.Services
         private static DefectDto MapToDto(Defect entity) => new()
         {
             Id = entity.Id,
-            Name = entity.Name,
-            Price = entity.Price
+            Title = entity.Title,
+            Description = entity.Description,
+            Status = entity.Status,
+            Severity = entity.Severity,
+            Priority = entity.Priority,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            LastModifiedAt = entity.LastModifiedAt
         };
     }
 }

@@ -7,10 +7,10 @@ using System.Collections.Concurrent; // added for Partitioner
 using Microsoft.EntityFrameworkCore;
 using QAMate.Data;
 
-// Adjusted: use Name field to align with QAMate.Data.Defect entity (Id, Name, Price)
+// Adjusted: use Title field to align with QAMate.Data.Defect entity (Id, Title, Description, Status, Severity, Priority, timestamps)
 
 // Added AI content generation support: --use-openai and --openai-max
-// Description is generated but not persisted (DB schema lacks column). Included in exports.
+// Description is generated and persisted.
 
 static void PrintUsage()
 {
@@ -32,32 +32,10 @@ static void PrintUsage()
     Console.WriteLine("  --export         Export file path (optional).");
     Console.WriteLine("  --export-format  json|csv (default json if --export given)");
     Console.WriteLine("  --db             Optional SQLite connection string. If omitted, uses QAMate appsettings.json or local.db.");
-    Console.WriteLine("  --use-openai     Use OpenAI (env OPENAI_API_KEY) for name+description (default false)");
+    Console.WriteLine("  --use-openai     Use OpenAI (env OPENAI_API_KEY) for title+description (default false)");
     Console.WriteLine("  --openai-max     Max AI calls (default = count if small, else 100) - remainder use templates");
     Console.WriteLine("  --wait           Wait for Enter before exit (useful when debugging)");
     Console.WriteLine("  --help           Show this help text");
-}
-
-static string? ResolveSqliteFilePath(string connectionString)
-{
-    try
-    {
-        var parts = connectionString.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-        foreach (var p in parts)
-        {
-            var kv = p.Split('=', 2);
-            if (kv.Length != 2) continue;
-            var key = kv[0].Trim().ToLowerInvariant();
-            var val = kv[1].Trim().Trim('\'','"');
-            if (key is "data source" or "datasource" or "filename")
-            {
-                if (string.Equals(val, ":memory:", StringComparison.OrdinalIgnoreCase)) return ":memory:";
-                return Path.GetFullPath(val);
-            }
-        }
-    }
-    catch { }
-    return null;
 }
 
 static Dictionary<string, string> ParseArgs(string[] args)
@@ -235,11 +213,6 @@ else
 Console.WriteLine($"[INFO] Starting DataGen runId={runId} tag={tag} count={count} seed={seed} dryRun={dryRun} useOpenAI={useOpenAi} openAiMax={openAiMax}");
 Console.WriteLine($"[INFO] Date range UTC: {fromUtc:o} -> {toUtc:o}");
 Console.WriteLine($"[INFO] DB: {connectionString}");
-var resolvedDbPath = ResolveSqliteFilePath(connectionString);
-if (!string.IsNullOrEmpty(resolvedDbPath) && resolvedDbPath != ":memory:")
-{
-    Console.WriteLine($"[INFO] SQLite file path: {resolvedDbPath} (exists={File.Exists(resolvedDbPath)})");
-}
 
 var cfg = new GenConfig(
     Count: count,
@@ -285,8 +258,8 @@ if (dryRun)
 
 if (cleanup)
 {
-    Console.WriteLine($"[INFO] Cleaning up existing defects with Tag prefix in Name '[{tag}]'...");
-    var toDelete = await db.Defect.Where(d => d.Name != null && d.Name.StartsWith($"[{tag}]"))
+    Console.WriteLine($"[INFO] Cleaning up existing defects with Tag prefix in Title '[{tag}]'...");
+    var toDelete = await db.Defect.Where(d => d.Title != null && d.Title.StartsWith($"[{tag}]"))
         .ToListAsync();
     var deleteCount = toDelete.Count;
     db.Defect.RemoveRange(toDelete);
@@ -298,7 +271,16 @@ if (cleanup)
 int written = 0;
 foreach (var batch in Util.Batch(defects, cfg.BatchSize))
 {
-    db.Defect.AddRange(batch.Select(x => new Defect { Name = x.Name, Price = x.Price }));
+    db.Defect.AddRange(batch.Select(x => new Defect {
+        Title = x.Title,
+        Description = x.Description,
+        Status = "Open",
+        Severity = x.Severity,
+        Priority = x.Priority,
+        CreatedAt = x.CreatedAt,
+        UpdatedAt = x.UpdatedAt,
+        LastModifiedAt = x.LastModifiedAt
+    }));
     await db.SaveChangesAsync();
     written += batch.Count;
     if (written % (cfg.BatchSize * 5) == 0 || written == defects.Count)
@@ -317,9 +299,13 @@ record GenConfig(int Count, string Tag, string RunId, int Seed, DateTime FromUtc
 
 class GenItem
 {
-    public required string Name { get; init; } // aligns with Defect.Name
-    public string? Description { get; init; } // not persisted (no column)
-    public double? Price { get; init; }
+    public required string Title { get; init; } // aligns with Defect.Title
+    public string? Description { get; init; }
+    public int Severity { get; init; }
+    public int Priority { get; init; }
+    public DateTime CreatedAt { get; init; }
+    public DateTime UpdatedAt { get; init; }
+    public DateTime LastModifiedAt { get; init; }
 }
 
 interface IContentGenerator
@@ -425,11 +411,11 @@ static class Util
         if (fmt.Equals("csv", StringComparison.OrdinalIgnoreCase))
         {
             var sb = new StringBuilder();
-            sb.AppendLine("Name,Description,Price");
+            sb.AppendLine("Title,Description,Severity,Priority,CreatedAt,UpdatedAt,LastModifiedAt");
             foreach (var d in items)
             {
                 string Esc(string v) => "\"" + (v?.Replace("\"", "\"\"") ?? "") + "\"";
-                sb.AppendLine(string.Join(',', new[] { Esc(d.Name), Esc(d.Description ?? ""), d.Price?.ToString() ?? "" }));
+                sb.AppendLine(string.Join(',', new[] { Esc(d.Title), Esc(d.Description ?? ""), d.Severity.ToString(), d.Priority.ToString(), d.CreatedAt.ToString("O"), d.UpdatedAt.ToString("O"), d.LastModifiedAt.ToString("O") }));
             }
             await File.WriteAllTextAsync(path, sb.ToString());
         }
@@ -439,7 +425,7 @@ static class Util
     {
         Console.WriteLine("[SAMPLE]");
         foreach (var d in items.Take(take))
-            Console.WriteLine($"- {d.Name}\n  {d.Description}\n  Price={d.Price}");
+            Console.WriteLine($"- {d.Title}\n  {d.Description}\n  Sev={d.Severity} Pri={d.Priority}");
     }
 
     public static IEnumerable<List<T>> Batch<T>(IReadOnlyList<T> items, int size)
@@ -462,8 +448,9 @@ static class Generator
 {
     private static readonly string[] Components =
     {
-        "Cab Booking", "Driver Search", "Source Selection", "Destination Selection",
-        "Fare Estimation", "Payment", "Ride Tracking", "Trip History", "Auth & Profile"
+        "Cab Booking", "Driver Search", "Source Selection",
+        "Destination Selection", "Fare Estimation", "Payment",
+        "Ride Tracking", "Trip History", "Auth & Profile"
     };
 
     public static async Task<List<GenItem>> GenerateAsync(GenConfig cfg)
@@ -522,13 +509,29 @@ static class Generator
                     content = await template.GenerateAsync(category, component, r, ct);
                 }
 
-                var nameTagged = $"[{cfg.Tag}][{cfg.RunId}] {content.name} #{i + 1}";
-                var price = Math.Round(r.NextDouble() * 100, 2);
-                var item = new GenItem { Name = nameTagged, Description = content.description, Price = price };
+                var titleTagged = $"[{cfg.Tag}][{cfg.RunId}] {content.name} #{i + 1}";
+
+                // Simple severity/priority assignment
+                int severity = r.Next(1, 6); // 1..5
+                int priority = r.Next(1, 6); // 1..5
+                var created = RandomDate(r, cfg.FromUtc, cfg.ToUtc);
+                var updated = created.Add(TimeSpan.FromDays(r.Next(0, 30)));
+                var lastMod = updated;
+
+                var item = new GenItem
+                {
+                    Title = titleTagged,
+                    Description = content.description,
+                    Severity = severity,
+                    Priority = priority,
+                    CreatedAt = created,
+                    UpdatedAt = updated,
+                    LastModifiedAt = lastMod
+                };
                 lock (results) results.Add(item);
             });
 
-        results.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
+        results.Sort((a, b) => string.CompareOrdinal(a.Title, b.Title));
         Console.WriteLine($"[INFO] AI calls made: {aiCalls}");
         return results;
     }
@@ -537,5 +540,12 @@ static class Generator
     {
         var x = r.NextDouble();
         return x < 0.55 ? "UI" : x < 0.80 ? "API" : x < 0.95 ? "Performance" : "Security";
+    }
+
+    private static DateTime RandomDate(Random r, DateTime from, DateTime to)
+    {
+        var range = to - from;
+        var offset = r.NextDouble() * range.TotalSeconds;
+        return from.AddSeconds(offset);
     }
 }
