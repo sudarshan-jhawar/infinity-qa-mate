@@ -1,4 +1,4 @@
-# infinity-qa-mate
+# DefectPilot 
 
 ## Overview
 The Defect Management System is designed to streamline defect logging, tracking, and prioritization using AI-powered automation. It integrates **React frontend**, **.NET backend**, and **OpenAI GPT-5** for intelligent defect analysis, leveraging historical data stored in **Azure SQL Database**.
