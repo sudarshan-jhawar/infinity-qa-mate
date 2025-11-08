@@ -10,6 +10,7 @@ import {
   Priority,
   Environment 
 } from '../constants/defectEnums';
+import { checkDefectTitleExists, submitDefect as submitDefectToAPI } from '../services/defectService';
 
 function DefectForm() {
   const { defect, updateField, addAttachment, removeAttachment, resetDefect, status, setStatus } = useDefectContext();
@@ -32,15 +33,13 @@ function DefectForm() {
     return Object.keys(e).length === 0;
   };
 
-  // placeholder for API integration
+  // Submit defect using API service
   const submitDefect = async (payload) => {
     setStatus({ submitting: true, success: null, error: null });
     try {
-      // simulate network
-      await new Promise((r) => setTimeout(r, 800));
-      // TODO: replace with real API call
+      const result = await submitDefectToAPI(payload);
       setStatus({ submitting: false, success: 'Defect submitted successfully', error: null });
-      return { ok: true };
+      return { ok: true, data: result };
     } catch (err) {
       setStatus({ submitting: false, success: null, error: err?.message || 'Submission failed' });
       return { ok: false };
@@ -50,6 +49,7 @@ function DefectForm() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
+
     const res = await submitDefect(defect);
     if (res.ok) resetDefect();
   };
@@ -125,11 +125,7 @@ function DefectForm() {
     setTitleExists(false);
     setTitleChecked(false);
 
-    // Simulated API call - replace with real fetch in production
-    // e.g. const res = await fetch(`/api/defects/exists?title=${encodeURIComponent(t)}`)
-    // const { exists } = await res.json();
-    await new Promise((r) => setTimeout(r, 600));
-    const exists = /duplicate|exists|existing|found|same/i.test(t);
+    const exists = await checkDefectTitleExists(t);
 
     setCheckingTitle(false);
     setTitleExists(exists);
