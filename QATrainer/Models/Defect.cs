@@ -6,7 +6,7 @@ public class Defect
 {
     [Key]
     [Column("Defect_ID")]
-    public int DefectId { get; set; }
+    public string DefectId { get; set; }
 
     [Required]
     [Column("Title")]
@@ -33,5 +33,5 @@ public class Defect
     // If Embedding stores JSON or text representation of embedding, keep as string.
     // Change to byte[] if it's stored as BLOB.
     [Column("Embedding")]
-    public string? Embedding { get; set; }
+    public byte[]? Embedding { get; set; }
 }
