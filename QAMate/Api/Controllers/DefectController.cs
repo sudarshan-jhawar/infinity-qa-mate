@@ -44,7 +44,7 @@ namespace QAMate.Api.Controllers
         {
             var created = await _service.CreateAsync(dto);
             // Return CreatedAt for RESTful pattern.
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetById), new { id = created.Defect_ID }, created);
         }
 
         /* Example PUT JSON body:
@@ -58,7 +58,7 @@ namespace QAMate.Api.Controllers
         [HttpPut("defects/{id:int}")]
         public async Task<ActionResult> Update(int id, [FromBody] DefectDto dto)
         {
-            if (dto.Id != 0 && dto.Id != id) return BadRequest("ID mismatch.");
+            if (dto.Defect_ID != 0 && dto.Defect_ID != id) return BadRequest("ID mismatch.");
             var success = await _service.UpdateAsync(id, dto);
             if (!success) return NotFound();
             return NoContent();

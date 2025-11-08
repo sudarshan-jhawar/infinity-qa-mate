@@ -1,6 +1,7 @@
 using QAMate.Data;
 using QAMate.Models;
 using QAMate.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace QAMate.Services
 {
@@ -8,14 +9,20 @@ namespace QAMate.Services
     public class DefectService : IDefectService
     {
         private readonly IDefectRepository _repository;
+        private readonly AppDbContext _dbContext;
+
         public DefectService(IDefectRepository repository)
         {
             _repository = repository;
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+            optionsBuilder.UseSqlite("Data Source=infinityQA.db");
+            _dbContext = new AppDbContext(optionsBuilder.Options);            
         }
 
         public async Task<IEnumerable<DefectDto>> GetAllAsync()
         {
             var entities = await _repository.GetAllAsync();
+            var hasData = _dbContext.Defect.Any();
             return entities.Select(MapToDto);
         }
 
@@ -34,7 +41,7 @@ namespace QAMate.Services
                 Module = dto.Module,
                 Severity = dto.Severity,
                 Priority = dto.Priority,
-                CreatedDate = dto.CreatedDate == default ? DateTime.UtcNow : dto.CreatedDate,
+                CreatedDate = dto.CreatedDate == default ? string.Empty : dto.CreatedDate,
                 Environment = dto.Environment,
                 Embedding = dto.Embedding
             };
@@ -66,7 +73,7 @@ namespace QAMate.Services
 
         private static DefectDto MapToDto(Defect entity) => new()
         {
-            Id = entity.Id,
+            Defect_ID = entity.Defect_ID,
             Title = entity.Title,
             Description = entity.Description,
             Module = entity.Module,
