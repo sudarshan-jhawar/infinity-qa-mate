@@ -170,6 +170,17 @@ function DefectForm() {
           <div className="info">A defect with this title already exists. Please modify the title or search existing defects.</div>
         </div>
       )}
+      {/* global status messages (moved here so they appear under the title-check banners) */}
+      {status.success && (
+        <div style={{ margin: '0 20px 12px' }}>
+          <div style={{ color: '#16a34a', padding: '8px 10px', borderRadius: 6, background: '#f0fff4' }}>{status.success}</div>
+        </div>
+      )}
+      {status.error && (
+        <div style={{ margin: '0 20px 12px' }}>
+          <div style={{ color: '#dc2626', padding: '8px 10px', borderRadius: 6, background: '#fff5f5' }}>{status.error}</div>
+        </div>
+      )}
       
       <div className="defect-header">
         <h3 className="defect-title">Log New Defect</h3>
@@ -291,8 +302,6 @@ function DefectForm() {
               </select>
             </div>
 
-            {status.success && <div style={{ color: '#16a34a', marginTop: 8 }}>{status.success}</div>}
-            {status.error && <div style={{ color: '#dc2626', marginTop: 8 }}>{status.error}</div>}
           </div>
         </aside>
 
