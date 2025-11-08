@@ -26,6 +26,13 @@ describe('DefectForm attachments', () => {
 
   test('adds image attachment and renders thumbnail', async () => {
     renderWithProvider(<DefectForm />);
+    // enter a non-duplicate title and blur so the component enables attachments
+    const titleInput = screen.getByLabelText('Defect Title');
+    await userEvent.type(titleInput, 'Unique test title');
+    fireEvent.blur(titleInput);
+
+    // wait until description becomes enabled (title check finished)
+    await waitFor(() => expect(screen.getByLabelText('Description')).not.toBeDisabled());
 
     const fileInput = screen.getByTestId('file-input');
     const file = new File(['(⌐□_□)'], 'very_long_image_name_example_screenshot.png', { type: 'image/png' });
@@ -46,6 +53,10 @@ describe('DefectForm attachments', () => {
 
   test('adds video attachment and renders preview', async () => {
     renderWithProvider(<DefectForm />);
+    const titleInput = screen.getByLabelText('Defect Title');
+    await userEvent.type(titleInput, 'Another unique title');
+    fireEvent.blur(titleInput);
+    await waitFor(() => expect(screen.getByLabelText('Description')).not.toBeDisabled());
 
     const fileInput = screen.getByTestId('file-input');
     const file = new File(['dummy'], 'sample_video_clip.mp4', { type: 'video/mp4' });
@@ -58,6 +69,10 @@ describe('DefectForm attachments', () => {
 
   test('removes attachment after confirmation', async () => {
     renderWithProvider(<DefectForm />);
+    const titleInput = screen.getByLabelText('Defect Title');
+    await userEvent.type(titleInput, 'Title to remove');
+    fireEvent.blur(titleInput);
+    await waitFor(() => expect(screen.getByLabelText('Description')).not.toBeDisabled());
 
     const fileInput = screen.getByTestId('file-input');
     const file = new File(['(⌐□_□)'], 'to_remove.png', { type: 'image/png' });

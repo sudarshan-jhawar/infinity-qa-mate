@@ -7,7 +7,20 @@ export function DefectProvider({ children }) {
   const [defect, setDefect] = useState({
     title: '',
     description: '',
-    steps: '',
+    steps: `1. Navigate to: <Specify the exact page/module or URL>
+
+2. Login as: <User role or credentials used>
+
+3. Perform actions:
+   a. Click on <Button/Link name>
+   b. Enter <Input details>
+   c. Select <Dropdown option>
+   
+4. Trigger event: <Describe what action causes the issue, e.g., Save, Submit, Refresh>
+
+5. Results:
+   Expected: <What should happen>
+   Actual: <What actually happens>`,
     severity: Severity.MAJOR,
     priority: Priority.HIGH,
     environment: Environment.QA,
@@ -57,7 +70,19 @@ export function DefectProvider({ children }) {
     setDefect({ 
       title: '', 
       description: '', 
-      steps: '', 
+      steps: `1. Navigate to: <Specify the exact page/module or URL>
+
+2. Login as: <User role or credentials used>
+
+3. Perform actions:
+   a. Click on <Button/Link name>
+   b. Enter <Input details>
+   c. Select <Dropdown option>
+   d. Trigger event: <Describe what action causes the issue, e.g., Save, Submit, Refresh>
+
+4. Results:
+   Expected: <What should happen>
+   Actual: <What actually happens>`, 
       severity: Severity.MAJOR, 
       priority: Priority.HIGH, 
       environment: Environment.QA, 

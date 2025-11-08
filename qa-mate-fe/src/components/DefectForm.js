@@ -85,6 +85,12 @@ function DefectForm() {
 
   const [confirm, setConfirm] = useState({ open: false, index: null, name: '' });
 
+  // title existence check state
+  const [checkingTitle, setCheckingTitle] = useState(false);
+  const [titleExists, setTitleExists] = useState(false);
+  const [titleChecked, setTitleChecked] = useState(false);
+  const [lastCheckedTitle, setLastCheckedTitle] = useState('');
+
   const requestRemove = (index) => {
     const item = defect.attachments[index];
     setConfirm({ open: true, index, name: item?.name || 'this file' });
@@ -97,8 +103,74 @@ function DefectForm() {
 
   const handleCancel = () => setConfirm({ open: false, index: null, name: '' });
 
+  // form is valid when title, description and steps are non-empty
+  const isFormValid = Boolean(defect.title && defect.title.trim() && defect.description && defect.description.trim() && defect.steps && defect.steps.trim());
+
+  // helper to simulate or call an API to check if title exists
+  const checkTitleExists = async (title) => {
+    const t = title && title.trim();
+    if (!t) {
+      setTitleExists(false);
+      setTitleChecked(false);
+      setLastCheckedTitle('');
+      return false;
+    }
+
+    // avoid re-checking same title
+    if (lastCheckedTitle === t) {
+      return titleExists;
+    }
+
+    setCheckingTitle(true);
+    setTitleExists(false);
+    setTitleChecked(false);
+
+    // Simulated API call - replace with real fetch in production
+    // e.g. const res = await fetch(`/api/defects/exists?title=${encodeURIComponent(t)}`)
+    // const { exists } = await res.json();
+    await new Promise((r) => setTimeout(r, 600));
+    const exists = /duplicate|exists|existing|found|same/i.test(t);
+
+    setCheckingTitle(false);
+    setTitleExists(exists);
+    setTitleChecked(!exists);
+    setLastCheckedTitle(t);
+    return exists;
+  };
+
+  const handleTitleBlur = () => {
+    // run check on blur
+    if (!defect.title || !defect.title.trim()) {
+      setTitleExists(false);
+      setTitleChecked(false);
+      setLastCheckedTitle('');
+      return;
+    }
+    // fire-and-forget
+    checkTitleExists(defect.title);
+  };
+
+  const handleTitleChange = (val) => {
+    // clear previous checks when title is modified
+    updateField('title', val);
+    setTitleChecked(false);
+    setTitleExists(false);
+    // don't clear lastCheckedTitle here; will be overwritten on next check
+  };
+
   return (
     <div className="defect-card">
+      {checkingTitle && (
+        <div className="title-info checking">
+          <div className="info">Checking title...</div>
+        </div>
+      )}
+      {titleExists && (
+        <div className="title-info exists">
+          <div className="info">A defect with this title already exists. Please modify the title or search existing defects.</div>
+        </div>
+      )}
+      
       <div className="defect-header">
         <h3 className="defect-title">Log New Defect</h3>
       </div>
@@ -107,19 +179,19 @@ function DefectForm() {
         <div className="left-column">
           <div className="field">
             <label htmlFor="title">Defect Title</label>
-            <input id="title" type="text" value={defect.title} onChange={(e) => updateField('title', e.target.value)} />
+            <input id="title" type="text" value={defect.title} onChange={(e) => handleTitleChange(e.target.value)} onBlur={handleTitleBlur} required />
             {errors.title && <div style={{ color: '#dc2626', fontSize: 13 }}>{errors.title}</div>}
           </div>
 
           <div className="field">
             <label htmlFor="description">Description</label>
-            <textarea id="description" value={defect.description} onChange={(e) => updateField('description', e.target.value)} />
+            <textarea id="description" value={defect.description} onChange={(e) => updateField('description', e.target.value)} required disabled={!titleChecked || titleExists} />
             {errors.description && <div style={{ color: '#dc2626', fontSize: 13 }}>{errors.description}</div>}
           </div>
 
           <div className="field">
             <label htmlFor="steps">Steps to Reproduce</label>
-            <textarea id="steps" value={defect.steps} onChange={(e) => updateField('steps', e.target.value)} />
+            <textarea id="steps" value={defect.steps} onChange={(e) => updateField('steps', e.target.value)} required disabled={!titleChecked || titleExists} />
           </div>
 
           <div className="field evidence">
@@ -169,22 +241,24 @@ function DefectForm() {
                 onDragOver={onDragOver}
                 onDragEnter={onDragOver}
                 onDragLeave={onDragLeave}
-                onDrop={onDrop}
+                onDrop={(e) => { if (!titleChecked || titleExists) return; onDrop(e); }}
               >
                 <div>
-                  Drag and drop files here or
-                  <label style={{ color: '#0b74ff', cursor: 'pointer', marginLeft: 6 }}>
-                    <input data-testid="file-input" ref={fileInputRef} type="file" style={{ display: 'none' }} accept="image/*,video/*" onChange={onFileChange} multiple />
+                  <div>Drag and drop files here or</div>
+                  <label>
+                    <input data-testid="file-input" ref={fileInputRef} type="file" style={{ display: 'none' }} accept="image/*,video/*" onChange={(e) => { if (!titleChecked || titleExists) return; onFileChange(e); }} multiple />
                     browse
                   </label>
                 </div>
               </div>
             </div>
 
-            <div className="voice">
-              <div style={{ fontSize: 14, marginBottom: 8 }}>Voice Input</div>
+            <div className="field voice">
+              <label>Voice Input</label>
               <button type="button" onClick={() => alert('start recording (placeholder)')}>Start Recording</button>
             </div>
+
+            {/* meta moved back to right column */}
           </div>
         </div>
 
@@ -192,7 +266,7 @@ function DefectForm() {
           <div className="meta">
             <div className="control">
               <label>Severity</label>
-              <select value={defect.severity} onChange={(e) => updateField('severity', e.target.value)}>
+              <select value={defect.severity} onChange={(e) => updateField('severity', e.target.value)} disabled={!titleChecked || titleExists}>
                 {getSeverityOptions().map(severity => (
                   <option key={severity} value={severity}>{severity}</option>
                 ))}
@@ -201,7 +275,7 @@ function DefectForm() {
 
             <div className="control">
               <label>Priority</label>
-              <select value={defect.priority} onChange={(e) => updateField('priority', e.target.value)}>
+              <select value={defect.priority} onChange={(e) => updateField('priority', e.target.value)} disabled={!titleChecked || titleExists}>
                 {getPriorityOptions().map(priority => (
                   <option key={priority} value={priority}>{priority}</option>
                 ))}
@@ -210,7 +284,7 @@ function DefectForm() {
 
             <div className="control">
               <label>Environment</label>
-              <select value={defect.environment} onChange={(e) => updateField('environment', e.target.value)}>
+              <select value={defect.environment} onChange={(e) => updateField('environment', e.target.value)} disabled={!titleChecked || titleExists}>
                 {getEnvironmentOptions().map(env => (
                   <option key={env} value={env}>{env}</option>
                 ))}
@@ -221,6 +295,15 @@ function DefectForm() {
             {status.error && <div style={{ color: '#dc2626', marginTop: 8 }}>{status.error}</div>}
           </div>
         </aside>
+
+        <div className="bottom-actions">
+          <div />
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button type="submit" className="btn primary" disabled={status.submitting || !isFormValid || titleExists || !titleChecked} title={!titleChecked ? 'Please enter title and click outside the field to check for duplicates' : titleExists ? 'A defect with this title already exists' : (!isFormValid ? 'Please fill Title, Description and Steps' : undefined)}>{status.submitting ? 'Submitting…' : 'Submit Defect'}</button>
+            <button type="button" className="btn primary" onClick={() => resetDefect()} disabled={status.submitting}>Cancel</button>
+          </div>
+        </div>
+
       </form>
 
       <ConfirmDialog
@@ -230,14 +313,7 @@ function DefectForm() {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
-
-      <div className="bottom-actions">
-        <div />
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button type="submit" className="btn primary" disabled={status.submitting}>{status.submitting ? 'Submitting…' : 'Submit Defect'}</button>
-          <button className="btn primary" onClick={() => alert('cancel (placeholder)')}>Cancel</button>
-        </div>
-      </div>
+      
     </div>
   );
 }

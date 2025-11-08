@@ -11,7 +11,7 @@
 .defect-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 20px 24px;
   border-bottom: 1px solid #eef2f7;
 }
@@ -29,23 +29,150 @@
 .right-column { padding-left: 8px; border-left: 1px solid #f1f5f9; }
 
 .field { margin-bottom: 14px; }
-.field label { display:block; font-size: 13px; color: #132035; margin-bottom:6px; }
-.field input[type="text"], .field textarea, .field select { width:100%; padding:10px 12px; border:1px solid #e6eef8; border-radius:8px; font-size:14px; box-sizing:border-box; }
+.field label { display:block; font-size: 13px; color: #132035; margin-bottom:6px; text-align: left; }
+.field input[type="text"], .field textarea, .field select { width:100%; padding:14px 16px; border:1px solid #e6eef8; border-radius:8px; font-size:14px; box-sizing:border-box; }
+.field select { min-height:52px; padding-top:12px; padding-bottom:12px; }
 .field textarea { min-height:100px; resize:vertical; }
 
-.evidence { display:flex; gap:12px; flex-direction:column; }
-.evidence-row { display:flex; gap:12px; }
-.evidence-card { flex:1; min-width:120px; border:1px dashed #e6eef8; border-radius:8px; padding:12px; background:#fbfdff; text-align:center; }
-.evidence-card button { margin-top:8px; }
+.evidence { 
+  display: flex; 
+  gap: 12px; 
+  flex-direction: column; 
+}
 
-.file-drop { border:2px dashed #e6eef8; border-radius:8px; padding:18px; text-align:center; color:#64748b; background:#fff; }
-.file-drop.dragging { background: linear-gradient(90deg, rgba(11,116,255,0.04), rgba(11,116,255,0.01)); border-color: #60a5fa; }
+.evidence-row { 
+  display: flex; 
+  gap: 12px; 
+  flex-wrap: wrap; 
+}
+
+.evidence-card { 
+  flex: 1; 
+  min-width: 120px; 
+  max-width: calc(33.33% - 8px);
+  border: 1px dashed #e6eef8; 
+  border-radius: 8px; 
+  padding: 12px; 
+  background: #fbfdff; 
+  text-align: center; 
+}
+
+.evidence-card button { margin-top: 8px; }
+
+/* Ensure video preview content stays within bounds */
+.video-preview {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.video-preview video {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.file-drop {
+  border: 2px dashed #e6eef8;
+  border-radius: 8px;
+  padding: 24px;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.file-drop > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.file-drop label {
+  color: #0b74ff;
+  cursor: pointer;
+  font-weight: 500;
+  display: block;
+  margin-top: 2px;
+}
+
+.file-drop label:hover {
+  text-decoration: underline;
+}
+
+.file-drop.dragging {
+  background: linear-gradient(90deg, rgba(11,116,255,0.04), rgba(11,116,255,0.01));
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1);
+}
+
+.title-info {
+  margin: 0 20px 12px;
+}
+.title-info .info {
+  padding: 10px; border-radius: 6px; font-size: 13px;
+}
+.title-info.info-ok { background: #f0f9ff; border-left: 4px solid #0b74ff; color: #083358; }
+.title-info.checking { background: #fff7ed; border-left: 4px solid #f59e0b; color: #92400e; }
+.title-info.exists { background: #fff1f2; border-left: 4px solid #ef4444; color: #63171b; }
 
 .thumb { position: relative; display: inline-block; }
 .thumb img { border-radius: 6px; display: block; }
-.thumb .remove { position: absolute; top: 6px; right: 6px; background: rgba(255,255,255,0.9); border: 1px solid #e6eef8; border-radius: 6px; width: 28px; height: 28px; display:flex; align-items:center; justify-content:center; cursor: pointer; }
-.filename { display:block; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.video-preview { border-radius: 6px; overflow: hidden; }
+.thumb .remove { 
+  position: absolute; 
+  top: 6px; 
+  right: 6px; 
+  background: rgba(255,255,255,0.95); 
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  border-radius: 6px; 
+  width: 28px; 
+  height: 28px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.thumb .remove:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Style for video remove button */
+.video-preview .btn.ghost {
+  color: #ef4444;
+  border-color: #ef4444;
+  background: white;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.video-preview .btn.ghost:hover {
+  background: #ef4444;
+  color: white;
+}
+
+.filename { 
+  display: block; 
+  max-width: 100%; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  font-size: 12px;
+  margin-top: 6px;
+  padding: 0 4px;
+}
+
+.video-preview { 
+  border-radius: 6px; 
+  overflow: hidden;
+  width: 100%;
+}
 
 /* Confirm dialog styles */
 .cf-overlay { position: fixed; inset: 0; background: rgba(2,6,23,0.45); display:flex; align-items:center; justify-content:center; z-index: 1200; }
@@ -61,9 +188,44 @@
 .meta .control { display:flex; flex-direction:column; }
 .meta .submit-wrap { display:flex; justify-content:flex-end; align-items:center; margin-top:18px; }
 
+/* Make meta labels identical to main form field labels */
+.meta .control label { display: block; font-size: 13px; color: #132035; margin-bottom: 6px; text-align: left; }
+
+/* Make meta selects match the larger dropdown sizing */
+.meta .control select { min-height:52px; padding:12px 16px; width:100%; border:1px solid #e6eef8; border-radius:8px; font-size:14px; box-sizing:border-box; background: #fff; }
+
+.moved-meta { margin-top: 16px; }
+
+/* Ensure moved meta block is left-aligned */
+.moved-meta {
+  text-align: left;
+}
+.moved-meta .control label {
+  text-align: left;
+}
+.moved-meta .control select {
+  text-align: left;
+}
+
+/* Ensure headers/titles and meta labels align left */
+.defect-header .defect-title { text-align: left; }
+.left-column, .right-column { text-align: left; }
+.meta .control label { text-align: left; }
+
 .bottom-actions { border-top:1px solid #eef2f7; padding:12px 20px; display:flex; justify-content:flex-end; gap:12px; }
 
 @media (max-width: 880px) {
   .defect-body { grid-template-columns: 1fr; }
   .right-column { border-left: none; padding-left: 0; }
+}
+
+/* Disabled primary button style to make it visually distinct */
+.btn.primary:disabled,
+.btn.primary[disabled] {
+  background: #cbd5e1; /* muted blue/gray */
+  border-color: #cbd5e1;
+  color: #94a3b8; /* slate gray text */
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 1; /* keep full opacity but muted color */
 }
