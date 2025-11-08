@@ -1,0 +1,101 @@
+Defect_ID,Title,Description,Module,Severity,Priority,Created_Date,Status,Assigned_To,Environment
+D001,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Authentication,Low,P3,2025-09-15,Open,Priya,Staging
+D002,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Payments,Critical,P2,2025-10-05,Resolved,Deepak,Production
+D003,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,UI,Critical,P3,2025-09-16,Open,Charlie,QA
+D004,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Authentication,High,P2,2025-09-25,In Progress,Deepak,Staging
+D005,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Payments,High,P1,2025-10-16,In Progress,Deepak,QA
+D006,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Payments,Low,P2,2025-09-30,Open,Charlie,Production
+D007,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,UI,Critical,P1,2025-10-07,Resolved,Alice,Staging
+D008,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,UI,High,P3,2025-10-26,Open,Sneha,Staging
+D009,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Data Sync,Critical,P2,2025-11-08,In Progress,Sneha,QA
+D010,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,Data Sync,Medium,P3,2025-11-01,In Progress,Deepak,Staging
+D011,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Data Sync,Critical,P3,2025-09-14,Resolved,Alice,Production
+D012,Data sync failure,Issue observed: Data sync failure. Needs investigation and fix.,UI,Critical,P1,2025-11-08,Resolved,Charlie,QA
+D013,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Profile,Medium,P1,2025-10-27,Resolved,Deepak,Production
+D014,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Authentication,Medium,P1,2025-09-14,In Progress,Alice,QA
+D015,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Reporting,Critical,P1,2025-10-26,Open,Charlie,Staging
+D016,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Data Sync,Critical,P1,2025-11-07,Open,Ravi,Staging
+D017,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,UI,Low,P2,2025-09-26,Closed,Priya,Staging
+D018,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,UI,Low,P1,2025-10-26,Open,Bob,QA
+D019,Data sync failure,Issue observed: Data sync failure. Needs investigation and fix.,Payments,Low,P2,2025-09-13,Closed,Ravi,Production
+D020,Crash on profile update,Issue observed: Crash on profile update. Needs investigation and fix.,Reporting,Medium,P2,2025-10-04,Resolved,Priya,QA
+D021,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,Data Sync,Critical,P1,2025-10-11,In Progress,Priya,QA
+D022,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Authentication,Low,P2,2025-10-09,Closed,Priya,Staging
+D023,Data sync failure,Issue observed: Data sync failure. Needs investigation and fix.,Reporting,Medium,P1,2025-10-18,Resolved,Sneha,Production
+D024,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Data Sync,Critical,P1,2025-09-19,Open,Priya,QA
+D025,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,UI,High,P3,2025-11-01,In Progress,Bob,Staging
+D026,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Authentication,Medium,P3,2025-10-07,Closed,Ravi,Production
+D027,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,Notifications,Medium,P1,2025-10-17,Resolved,Priya,Production
+D028,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Data Sync,Low,P1,2025-10-14,In Progress,Deepak,Production
+D029,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Data Sync,High,P2,2025-09-13,Open,Sneha,Staging
+D030,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Authentication,High,P1,2025-09-18,Closed,Alice,Production
+D031,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Data Sync,Critical,P3,2025-10-06,Resolved,Charlie,Production
+D032,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Data Sync,High,P3,2025-09-27,Closed,Deepak,Staging
+D033,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Notifications,High,P2,2025-09-11,Resolved,Ravi,Staging
+D034,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Authentication,High,P3,2025-10-03,Resolved,Charlie,QA
+D035,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,UI,Medium,P1,2025-09-29,Resolved,Alice,Production
+D036,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Payments,Critical,P2,2025-09-18,Open,Deepak,Staging
+D037,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Notifications,Medium,P1,2025-10-03,Closed,Alice,Staging
+D038,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Profile,Low,P1,2025-10-04,Open,Alice,Production
+D039,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Profile,Medium,P1,2025-09-27,In Progress,Ravi,Production
+D040,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Authentication,Critical,P2,2025-10-23,Resolved,Charlie,QA
+D041,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Authentication,Medium,P2,2025-09-25,Open,Priya,Production
+D042,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Data Sync,High,P1,2025-10-14,Open,Charlie,Production
+D043,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Profile,Critical,P3,2025-10-24,Closed,Priya,Staging
+D044,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Data Sync,Critical,P2,2025-10-18,Open,Alice,Staging
+D045,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,UI,Medium,P2,2025-09-21,Resolved,Sneha,QA
+D046,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Payments,Low,P3,2025-09-24,Closed,Deepak,Staging
+D047,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Notifications,High,P2,2025-09-25,Open,Priya,Production
+D048,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Reporting,Medium,P1,2025-10-31,In Progress,Sneha,Staging
+D049,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,UI,High,P3,2025-10-16,Open,Sneha,QA
+D050,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,UI,Low,P1,2025-10-31,In Progress,Alice,Staging
+D051,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,UI,High,P2,2025-10-08,In Progress,Deepak,Staging
+D052,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,UI,Medium,P1,2025-10-31,Closed,Bob,QA
+D053,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Data Sync,Critical,P3,2025-11-04,Closed,Deepak,QA
+D054,Crash on profile update,Issue observed: Crash on profile update. Needs investigation and fix.,UI,Critical,P3,2025-10-16,In Progress,Alice,Staging
+D055,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Reporting,High,P3,2025-09-25,In Progress,Priya,Staging
+D056,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Payments,Critical,P3,2025-10-09,Open,Bob,Production
+D057,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,UI,High,P2,2025-10-21,In Progress,Ravi,QA
+D058,Data sync failure,Issue observed: Data sync failure. Needs investigation and fix.,Profile,Critical,P1,2025-09-11,Closed,Ravi,Production
+D059,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Notifications,High,P3,2025-11-06,In Progress,Bob,Production
+D060,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Data Sync,Low,P3,2025-10-27,Closed,Alice,QA
+D061,Crash on profile update,Issue observed: Crash on profile update. Needs investigation and fix.,Notifications,Critical,P1,2025-10-09,Resolved,Bob,QA
+D062,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,Reporting,High,P1,2025-10-15,Resolved,Deepak,Staging
+D063,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Reporting,High,P3,2025-10-01,Closed,Sneha,QA
+D064,Crash on profile update,Issue observed: Crash on profile update. Needs investigation and fix.,Payments,Medium,P2,2025-10-03,Closed,Priya,QA
+D065,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Profile,Medium,P3,2025-10-04,Open,Sneha,QA
+D066,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,UI,Critical,P1,2025-10-21,Resolved,Deepak,Production
+D067,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,Profile,Low,P1,2025-10-29,Closed,Charlie,QA
+D068,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Reporting,Low,P2,2025-10-04,Resolved,Priya,QA
+D069,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Reporting,Critical,P3,2025-09-11,Closed,Sneha,Production
+D070,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Notifications,High,P1,2025-09-14,Open,Priya,QA
+D071,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Notifications,High,P3,2025-09-14,Resolved,Charlie,QA
+D072,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Data Sync,Critical,P3,2025-10-14,Open,Charlie,QA
+D073,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Reporting,Low,P2,2025-11-01,Resolved,Bob,Production
+D074,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Reporting,High,P1,2025-09-30,Open,Ravi,Production
+D075,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,Data Sync,Low,P1,2025-10-07,Closed,Charlie,QA
+D076,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Notifications,High,P2,2025-11-03,Closed,Priya,Production
+D077,Crash on profile update,Issue observed: Crash on profile update. Needs investigation and fix.,Data Sync,Medium,P3,2025-09-27,Closed,Bob,Production
+D078,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,Notifications,High,P3,2025-11-06,Resolved,Sneha,QA
+D079,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Data Sync,Medium,P3,2025-09-23,Closed,Deepak,Production
+D080,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Authentication,Medium,P2,2025-09-25,Closed,Alice,QA
+D081,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Notifications,Critical,P2,2025-10-26,Resolved,Bob,Production
+D082,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Reporting,Critical,P1,2025-10-24,Open,Deepak,Staging
+D083,Data sync failure,Issue observed: Data sync failure. Needs investigation and fix.,Reporting,Low,P1,2025-09-22,Resolved,Deepak,Production
+D084,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Authentication,Low,P1,2025-09-29,Resolved,Bob,Production
+D085,Login button not responsive,Issue observed: Login button not responsive. Needs investigation and fix.,UI,Critical,P1,2025-11-04,Closed,Charlie,QA
+D086,Data sync failure,Issue observed: Data sync failure. Needs investigation and fix.,Data Sync,High,P2,2025-10-27,Open,Ravi,QA
+D087,Incorrect password validation,Issue observed: Incorrect password validation. Needs investigation and fix.,Notifications,Low,P3,2025-10-02,In Progress,Priya,Staging
+D088,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Authentication,Low,P3,2025-09-23,In Progress,Charlie,QA
+D089,UI alignment issue,Issue observed: UI alignment issue. Needs investigation and fix.,Reporting,Medium,P2,2025-09-22,Closed,Sneha,Staging
+D090,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Payments,High,P3,2025-09-27,Open,Ravi,Staging
+D091,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Notifications,Critical,P3,2025-10-30,Closed,Priya,Staging
+D092,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Profile,Low,P1,2025-09-12,Closed,Priya,QA
+D093,Report generation error,Issue observed: Report generation error. Needs investigation and fix.,UI,Critical,P2,2025-09-19,Resolved,Priya,Production
+D094,Payment gateway timeout,Issue observed: Payment gateway timeout. Needs investigation and fix.,Notifications,Medium,P2,2025-11-08,Open,Ravi,Staging
+D095,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Authentication,Critical,P2,2025-10-24,Resolved,Priya,QA
+D096,Duplicate login issue,Issue observed: Duplicate login issue. Needs investigation and fix.,Reporting,High,P1,2025-11-06,Closed,Alice,Staging
+D097,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Data Sync,Critical,P3,2025-10-17,Closed,Deepak,QA
+D098,Notification delay,Issue observed: Notification delay. Needs investigation and fix.,Profile,Critical,P1,2025-10-15,Closed,Charlie,Staging
+D099,Crash on profile update,Issue observed: Crash on profile update. Needs investigation and fix.,Profile,Critical,P2,2025-11-07,In Progress,Priya,QA
+D100,Missing error message,Issue observed: Missing error message. Needs investigation and fix.,Authentication,Critical,P3,2025-09-12,Closed,Deepak,QA
